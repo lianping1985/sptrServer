@@ -1,0 +1,33 @@
+server:
+  port: 8003
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/sptr?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: 123456
+  redis:
+    single: 127.0.0.1:6379
+    jedis:
+      pool:
+        max-idle: 8
+        max-active: 8
+        max-wait: 3000
+    timeout: 3000
+    password:
+    #集群版
+#    jedis:
+#      pool:
+#        max-active: 8
+#        max-wait: -1
+#        max-idle: 8
+#        min-idle: 0
+#    timeout: 10000
+#    cluster:
+#      nodes:
+#        - 172.18.20.117:7001
+#        - 172.18.20.117:7002
+#        - 172.18.20.117:7003
+#        - 172.18.20.117:7004
+#        - 172.18.20.117:7005
+#        - 172.18.20.117:7006

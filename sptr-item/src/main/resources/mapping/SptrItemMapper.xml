@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptr.item.mapper.SptrItemMapper" >
+  <resultMap id="BaseResultMap" type="com.sptr.item.domain.SptrItem" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="item_desc" property="itemDesc" jdbcType="VARCHAR" />
+    <result column="item_pic" property="itemPic" jdbcType="VARCHAR" />
+    <result column="item_pic_hot" property="itemPicHot" jdbcType="VARCHAR" />
+    <result column="item_pic_new" property="itemPicNew" jdbcType="VARCHAR" />
+    <result column="item_pic_top" property="itemPicTop" jdbcType="VARCHAR" />
+    <result column="item_unit" property="itemUnit" jdbcType="VARCHAR" />
+    <result column="buy_start_up" property="buyStartUp" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="price_discount" property="priceDiscount" jdbcType="DECIMAL" />
+    <result column="seller_id" property="sellerId" jdbcType="BIGINT" />
+    <result column="item_status" property="itemStatus" jdbcType="INTEGER" />
+    <result column="item_show_type" property="itemShowType" jdbcType="INTEGER" />
+    <result column="item_category" property="itemCategory" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, item_name, item_desc, item_pic, item_pic_hot, item_pic_new, item_pic_top, item_unit, 
+    buy_start_up, price, price_discount, seller_id, item_status, item_show_type, item_category, 
+    create_user_id, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sptr.item.domain.SptrItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sptr_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sptr.item.domain.SptrItemExample" >
+    delete from sptr_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sptr.item.domain.SptrItem" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sptr_item (item_name, item_desc, item_pic, 
+      item_pic_hot, item_pic_new, item_pic_top, 
+      item_unit, buy_start_up, price, 
+      price_discount, seller_id, item_status, 
+      item_show_type, item_category, create_user_id, 
+      create_time)
+    values (#{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, #{itemPic,jdbcType=VARCHAR}, 
+      #{itemPicHot,jdbcType=VARCHAR}, #{itemPicNew,jdbcType=VARCHAR}, #{itemPicTop,jdbcType=VARCHAR}, 
+      #{itemUnit,jdbcType=VARCHAR}, #{buyStartUp,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{priceDiscount,jdbcType=DECIMAL}, #{sellerId,jdbcType=BIGINT}, #{itemStatus,jdbcType=INTEGER}, 
+      #{itemShowType,jdbcType=INTEGER}, #{itemCategory,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptr.item.domain.SptrItem" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sptr_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="itemDesc != null" >
+        item_desc,
+      </if>
+      <if test="itemPic != null" >
+        item_pic,
+      </if>
+      <if test="itemPicHot != null" >
+        item_pic_hot,
+      </if>
+      <if test="itemPicNew != null" >
+        item_pic_new,
+      </if>
+      <if test="itemPicTop != null" >
+        item_pic_top,
+      </if>
+      <if test="itemUnit != null" >
+        item_unit,
+      </if>
+      <if test="buyStartUp != null" >
+        buy_start_up,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="priceDiscount != null" >
+        price_discount,
+      </if>
+      <if test="sellerId != null" >
+        seller_id,
+      </if>
+      <if test="itemStatus != null" >
+        item_status,
+      </if>
+      <if test="itemShowType != null" >
+        item_show_type,
+      </if>
+      <if test="itemCategory != null" >
+        item_category,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null" >
+        #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="itemPic != null" >
+        #{itemPic,jdbcType=VARCHAR},
+      </if>
+      <if test="itemPicHot != null" >
+        #{itemPicHot,jdbcType=VARCHAR},
+      </if>
+      <if test="itemPicNew != null" >
+        #{itemPicNew,jdbcType=VARCHAR},
+      </if>
+      <if test="itemPicTop != null" >
+        #{itemPicTop,jdbcType=VARCHAR},
+      </if>
+      <if test="itemUnit != null" >
+        #{itemUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="buyStartUp != null" >
+        #{buyStartUp,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="priceDiscount != null" >
+        #{priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerId != null" >
+        #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="itemStatus != null" >
+        #{itemStatus,jdbcType=INTEGER},
+      </if>
+      <if test="itemShowType != null" >
+        #{itemShowType,jdbcType=INTEGER},
+      </if>
+      <if test="itemCategory != null" >
+        #{itemCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sptr.item.domain.SptrItemExample" resultType="java.lang.Integer" >
+    select count(*) from sptr_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sptr_item
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.itemName != null" >
+        item_name = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemDesc != null" >
+        item_desc = #{record.itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemPic != null" >
+        item_pic = #{record.itemPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemPicHot != null" >
+        item_pic_hot = #{record.itemPicHot,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemPicNew != null" >
+        item_pic_new = #{record.itemPicNew,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemPicTop != null" >
+        item_pic_top = #{record.itemPicTop,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemUnit != null" >
+        item_unit = #{record.itemUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyStartUp != null" >
+        buy_start_up = #{record.buyStartUp,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.priceDiscount != null" >
+        price_discount = #{record.priceDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sellerId != null" >
+        seller_id = #{record.sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.itemStatus != null" >
+        item_status = #{record.itemStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemShowType != null" >
+        item_show_type = #{record.itemShowType,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemCategory != null" >
+        item_category = #{record.itemCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sptr_item
+    set id = #{record.id,jdbcType=BIGINT},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
+      item_desc = #{record.itemDesc,jdbcType=VARCHAR},
+      item_pic = #{record.itemPic,jdbcType=VARCHAR},
+      item_pic_hot = #{record.itemPicHot,jdbcType=VARCHAR},
+      item_pic_new = #{record.itemPicNew,jdbcType=VARCHAR},
+      item_pic_top = #{record.itemPicTop,jdbcType=VARCHAR},
+      item_unit = #{record.itemUnit,jdbcType=VARCHAR},
+      buy_start_up = #{record.buyStartUp,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      price_discount = #{record.priceDiscount,jdbcType=DECIMAL},
+      seller_id = #{record.sellerId,jdbcType=BIGINT},
+      item_status = #{record.itemStatus,jdbcType=INTEGER},
+      item_show_type = #{record.itemShowType,jdbcType=INTEGER},
+      item_category = #{record.itemCategory,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <select id="listItems" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from sptr_item
+    where item_status=1 and item_show_type=#{showType,jdbcType=INTEGER}
+  </select>
+</mapper>

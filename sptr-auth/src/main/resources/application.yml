@@ -1,0 +1,40 @@
+server:
+  servlet:
+    context-path: /sptr
+
+spring:
+  application:
+    name: sptr-auth
+  profiles:
+    active: dev
+  cloud:
+    client:
+      ip-address: 127.0.0.1
+
+eureka:
+  instance:
+    # 使用 ip 代替实例名
+    prefer-ip-address: true
+    # 实例的主机名
+    hostname: ${spring.cloud.client.ip-address}
+    # 实例的 ID 规则
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+  client:
+    serviceUrl:
+      # 注册中心地址
+      defaultZone: http://${eureka.instance.hostname}:9001/eureka/
+
+# JWT相关配置
+config:
+  jwt:
+    header: Authorization
+    # 过期时间
+    expiration: 864000
+    # 注意有一个空格
+    tokenHead: Bearer
+    # 加密密钥
+    secret: sptr123456
+
+logging:
+  level:
+    root: INFO
