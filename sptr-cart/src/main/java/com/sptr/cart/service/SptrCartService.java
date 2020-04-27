@@ -1,6 +1,7 @@
 package com.sptr.cart.service;
 
 import com.sptr.cart.req.AddCartReq;
+import com.sptr.cart.req.EditCartReq;
 
 /**
  * @author：lianp
@@ -9,4 +10,6 @@ import com.sptr.cart.req.AddCartReq;
  */
 public interface SptrCartService {
     void add(AddCartReq req);
+
+    void edit(EditCartReq req);
 }

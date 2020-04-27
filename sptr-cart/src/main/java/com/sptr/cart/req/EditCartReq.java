@@ -8,7 +8,8 @@ import lombok.Data;
  * @date：17:00 2020/4/24
  */
 @Data
-public class AddCartReq {
+public class EditCartReq {
+    Long id;
     Long itemId;
     Integer buyNum;
 }
